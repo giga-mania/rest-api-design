@@ -14,8 +14,8 @@ const findAll = () => {
 
 const findById = (id) => {
     try {
-        const workout =  DB.workouts.find((workout) => workout.id === id)
-        if(!workout) {
+        const workout = DB.workouts.find((workout) => workout.id === id)
+        if (!workout) {
             throw {
                 status: 400,
                 message: `Can't find workout with the id '${id}'`,
@@ -53,10 +53,10 @@ const create = (newWorkoutToCreate) => {
 
 const updateById = (id, updatesToMake) => {
     const index = DB.workouts.findIndex((workout) => workout.id === id)
-    if(index === -1) {
+    if (index === -1) {
         throw {
             status: 400,
-            message: "Workout with the provided id doesn't exist",
+            message: "Workout with provided id doesn't exist",
         }
     }
 
@@ -81,12 +81,23 @@ const updateById = (id, updatesToMake) => {
 
 const deleteById = (id) => {
     const index = DB.workouts.findIndex((workout) => workout.id === id)
-    if (index === -1) return
-
-    const workoutToDelete = DB.workouts.splice(index, 1)
-
-    saveToDatabase(DB)
-    return workoutToDelete
+    if (index === -1) {
+        throw {
+            status: 400,
+            message: "Workout with provided id doesn't exist",
+        }
+    }
+    
+    try {
+        const workoutToDelete = DB.workouts.splice(index, 1)
+        saveToDatabase(DB)
+        return workoutToDelete
+    } catch (e) {
+        throw {
+            status: 500,
+            message: e?.message || e
+        }
+    }
 }
 
 

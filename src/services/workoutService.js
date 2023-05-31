@@ -45,9 +45,11 @@ const updateOneWorkout = (id, updatesToMake) => {
 };
 
 const deleteOneWorkout = (id) => {
-    const deletedWorkout = Workout.deleteById(id)
-
-    return deletedWorkout
+    try {
+        return  Workout.deleteById(id)
+    } catch (e) {
+        throw e
+    }
 };
 
 module.exports = {

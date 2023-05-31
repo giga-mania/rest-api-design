@@ -93,10 +93,24 @@ const updateOneWorkout = (req, res) => {
 
 const deleteOneWorkout = (req, res) => {
     const {params: {workoutId}} = req
+    if (!workoutId) {
+        res.status(400).send({
+            status: "FAILED",
+            data: {
+                error: "WorkoutId as query parameter were not provided"
+            }
+        })
+        return;
+    }
 
-    const deletedWorkout = workoutService.deleteOneWorkout(workoutId)
-
-    res.send({status: "OK", data: deletedWorkout})
+    try {
+        const deletedWorkout = workoutService.deleteOneWorkout(workoutId)
+        res.send({status: "OK", data: deletedWorkout})
+    } catch (e) {
+        res
+            .status(e.status || 500)
+            .send({status: "FAILED", data: {error: e?.message || e}})
+    }
 }
 
 

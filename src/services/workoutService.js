@@ -7,9 +7,12 @@ const getAllWorkouts = () => {
 };
 
 const getOneWorkout = (id) => {
-    const workout = Workout.findById(id)
-
-    return workout
+    try {
+        const workout = Workout.findById(id)
+        return workout
+    } catch (e) {
+        throw e
+    }
 };
 
 const createNewWorkout = (body) => {

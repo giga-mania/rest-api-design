@@ -12,12 +12,23 @@ const findById = (id) => {
 
 const create = (newWorkoutToCreate) => {
     const isAlreadyCreated = DB.workouts.findIndex((workout) => workout.name === newWorkoutToCreate.name) > - 1
-    if(isAlreadyCreated) return
+    if(isAlreadyCreated) {
+        throw {
+            status: 400,
+            message: `Workout with the name '${newWorkoutToCreate.name}' already exists`,
+        }
+    }
 
-
-    DB.workouts.push(newWorkoutToCreate)
-    saveToDatabase(DB)
-    return newWorkoutToCreate
+    try {
+        DB.workouts.push(newWorkoutToCreate)
+        saveToDatabase(DB)
+        return newWorkoutToCreate
+    } catch (e) {
+        throw {
+            status: 500,
+            message: e?.message || e
+        }
+    }
 }
 
 const updateById = (id, updatesToMake) => {

@@ -1,5 +1,5 @@
 const Workout = require("../database/Workout")
-const { v4: uuid } = require("uuid");
+const {v4: uuid} = require("uuid");
 
 
 const getAllWorkouts = () => {
@@ -20,8 +20,12 @@ const createNewWorkout = (body) => {
         id: uuid()
     }
 
-    const newWorkout = Workout.create(workOutToCreate)
-    return newWorkout
+    try {
+        const newWorkout = Workout.create(workOutToCreate)
+        return newWorkout
+    } catch (e) {
+        throw e
+    }
 };
 
 const updateOneWorkout = (id, updatesToMake) => {

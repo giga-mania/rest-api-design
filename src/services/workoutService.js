@@ -3,7 +3,11 @@ const {v4: uuid} = require("uuid");
 
 
 const getAllWorkouts = () => {
-    return Workout.findAll()
+    try {
+        return Workout.findAll()
+    } catch (e) {
+        throw e
+    }
 };
 
 const getOneWorkout = (id) => {

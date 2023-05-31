@@ -13,7 +13,20 @@ const findAll = () => {
 }
 
 const findById = (id) => {
-    return DB.workouts.find((workout) => workout.id === id)
+    try {
+        const workout =  DB.workouts.find((workout) => workout.id === id)
+        if(!workout) {
+            throw {
+                status: 400,
+                message: `Can't find workout with the id '${id}'`,
+            }
+        }
+    } catch (e) {
+        throw {
+            status: 500,
+            message: e?.message || e
+        }
+    }
 }
 
 

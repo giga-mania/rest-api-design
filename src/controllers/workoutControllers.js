@@ -13,11 +13,23 @@ const getAllWorkouts = (req, res) => {
 
 const getOneWorkout = (req, res) => {
     const {params: {workoutId}} = req
-    if (!workoutId) return
+    if (!workoutId) {
+        res.status(400).send({
+            status: "FAILED",
+            data: {
+                error: "WorkoutId as query parameter wer not provided"
+            }
+        })
+    }
 
-    const workout = workoutService.getOneWorkout(workoutId)
-
-    res.send({status: "OK", data: workout})
+    try {
+        const workout = workoutService.getOneWorkout(workoutId)
+        res.send({status: "OK", data: workout})
+    } catch (e) {
+        res
+            .status(e?.status || 500)
+            .send({status: "FAILED", data: {error: e?.message || e}})
+    }
 }
 
 const createNewWorkout = (req, res) => {

@@ -17,9 +17,10 @@ const getOneWorkout = (req, res) => {
         res.status(400).send({
             status: "FAILED",
             data: {
-                error: "WorkoutId as query parameter wer not provided"
+                error: "WorkoutId as query parameter were not provided"
             }
         })
+        return;
     }
 
     try {
@@ -47,7 +48,7 @@ const createNewWorkout = (req, res) => {
                 error: "One of the following keys is missing or is empty in request body: 'name', 'mode', 'equipment', 'exercises', 'trainerTips'"
             }
         })
-        return
+        return;
     }
 
     try {
@@ -62,11 +63,32 @@ const createNewWorkout = (req, res) => {
 
 const updateOneWorkout = (req, res) => {
     const {body, params: {workoutId}} = req
-    if (!workoutId) return
+    if (!workoutId) {
+        res.status(400).send({
+            status: "FAILED",
+            data: {
+                error: "WorkoutId as query parameter were not provided"
+            }
+        })
+        return;
+    } else if (Object.keys(body).length === 0) {
+        res.status(400).send({
+            status: "FAILED",
+            data: {
+                error: "Request body can't be empty"
+            }
+        })
+        return;
+    }
 
-    const updatedWorkout = workoutService.updateOneWorkout(workoutId, body)
-
-    res.send({status: "OK", data: updatedWorkout})
+    try {
+        const updatedWorkout = workoutService.updateOneWorkout(workoutId, body)
+        res.send({status: "OK", data: updatedWorkout})
+    } catch (e) {
+        res
+            .status(e.status || 500)
+            .send({status: "FAILED", data: {error: e?.message || e}})
+    }
 }
 
 const deleteOneWorkout = (req, res) => {

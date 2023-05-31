@@ -53,17 +53,29 @@ const create = (newWorkoutToCreate) => {
 
 const updateById = (id, updatesToMake) => {
     const index = DB.workouts.findIndex((workout) => workout.id === id)
-    const workoutToUpdate = DB.workouts[index]
-
-    const updatedWorkout = {
-        ...workoutToUpdate,
-        ...updatesToMake
+    if(index === -1) {
+        throw {
+            status: 400,
+            message: "Workout with the provided id doesn't exist",
+        }
     }
 
-    DB.workouts[index] = updatedWorkout
-    saveToDatabase(DB)
+    try {
+        const workoutToUpdate = DB.workouts[index]
+        const updatedWorkout = {
+            ...workoutToUpdate,
+            ...updatesToMake
+        }
 
-    return updatedWorkout
+        DB.workouts[index] = updatedWorkout
+        saveToDatabase(DB)
+        return updatedWorkout
+    } catch (e) {
+        throw {
+            status: 500,
+            message: e?.message || e
+        }
+    }
 }
 
 

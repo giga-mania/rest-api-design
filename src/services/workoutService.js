@@ -12,8 +12,7 @@ const getAllWorkouts = () => {
 
 const getOneWorkout = (id) => {
     try {
-        const workout = Workout.findById(id)
-        return workout
+        return Workout.findById(id)
     } catch (e) {
         throw e
     }
@@ -28,20 +27,21 @@ const createNewWorkout = (body) => {
     }
 
     try {
-        const newWorkout = Workout.create(workOutToCreate)
-        return newWorkout
+        return Workout.create(workOutToCreate)
     } catch (e) {
         throw e
     }
 };
 
 const updateOneWorkout = (id, updatesToMake) => {
-    const updatedWorkout = Workout.updateById(id, {
-        ...updatesToMake,
-        updatedAt: new Date().toLocaleString("en-GB", {timeZone: "UTC"})
-    })
-
-    return updatedWorkout
+    try {
+        return Workout.updateById(id, {
+            ...updatesToMake,
+            updatedAt: new Date().toLocaleString("en-GB", {timeZone: "UTC"})
+        })
+    } catch (e) {
+        throw e
+    }
 };
 
 const deleteOneWorkout = (id) => {

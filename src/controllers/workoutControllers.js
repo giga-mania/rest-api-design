@@ -97,7 +97,7 @@ const deleteOneWorkout = (req, res) => {
         res.status(400).send({
             status: "FAILED",
             data: {
-                error: "WorkoutId as query parameter were not provided"
+                error: "Workout id as query parameter were not provided"
             }
         })
         return;

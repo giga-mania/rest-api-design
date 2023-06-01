@@ -1,5 +1,5 @@
 {
-  "workouts":  [
+  "workouts": [
     {
       "id": "61dbae02-c147-4e28-863c-db7bd402b2d6",
       "name": "Tommy V",
@@ -141,5 +141,6 @@
       "id": "62251cfe-fdb6-4fa6-9a2d-c21be93ac78d",
       "workout": "4a3d9aaa-608c-49a7-a004-66305ad4ab50",
       "record": "145 reps"
-    },
+    }
+  ]
 }

@@ -1,8 +1,12 @@
 const DB = require("./db.json")
 const {saveToDatabase} = require("./utils")
 
-const findAll = () => {
+const findAll = (filterParams) => {
     try {
+        if(filterParams.mode) {
+            return DB.workouts.filter(workout => workout.mode.toLowerCase().includes(filterParams.mode))
+        }
+
         return DB.workouts
     } catch (e) {
         throw {
